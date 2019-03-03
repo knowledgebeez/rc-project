@@ -1,0 +1,55 @@
+---
+# tasks file for elk
+
+  - name: Elk-repo-key
+    rpm_key:
+      key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      state: present
+  - name: Add-elk-repository
+    yum_repository:
+      name: ELK-6.x
+      description: ELK repository for 6.x packages
+      baseurl: https://artifacts.elastic.co/packages/6.x/yum
+      gpgcheck: 1
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      enabled: 1
+
+  - name: List of packages to install
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+       - java-1.8.0-openjdk
+       - elasticsearch
+       - kibana
+       - logstash
+
+  - name: start Elasticsearch
+    systemd:
+      name: elasticsearch
+      daemon_reload: yes
+      state: started
+      enabled: yes
+
+  - name: start Kibana
+    systemd:
+      name: kibana
+      daemon_reload: yes
+      state: started
+      enabled: yes
+
+  - name: Copy a new logstash.conf file into place
+    copy:
+      src: /rc-project/elk_playbook/roles/elk/files/01-logstash-simple.conf
+      dest: /etc/logstash/conf.d/01-logstash-simple.conf
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+
+  - name: start Logstash
+    systemd:
+      name: logstash
+      daemon_reload: yes
+      state: started
+      enabled: yes

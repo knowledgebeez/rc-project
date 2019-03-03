@@ -1,0 +1,34 @@
+---
+# tasks file for proxy
+
+  - name: List of packages to install
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+       - nginx
+
+  - name: Copy a new nginx.conf file into place
+    copy:
+      src: /rc-project/elk_playbook/roles/proxy/files/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+
+  - name: Copy a new nginx.conf file into place
+    copy:
+      src: /rc-project/elk_playbook/roles/proxy/files/kibana.conf
+      dest: /etc/nginx/conf.d/kibana.conf
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+
+  - name: start Nginx
+    systemd:
+      name: nginx
+      daemon_reload: yes
+      state: started
+      enabled: yes

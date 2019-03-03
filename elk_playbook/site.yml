@@ -1,0 +1,12 @@
+---
+# This playbook deploys the whole ELK application stack.
+
+- name: apply common configuration to all nodes
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+  
+  roles:
+    - proxy
+    - elk
