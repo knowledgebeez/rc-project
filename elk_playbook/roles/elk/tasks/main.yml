@@ -1,11 +1,11 @@
 ---
 # tasks file for elk
 
-  - name: Elk-repo-key
+  - name: Add elk-repo-key
     rpm_key:
       key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
       state: present
-  - name: Add-elk-repository
+  - name: Add elk-repository
     yum_repository:
       name: ELK-6.x
       description: ELK repository for 6.x packages
@@ -14,7 +14,7 @@
       gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
       enabled: 1
 
-  - name: List of packages to install
+  - name: Install packages
     yum:
       name: "{{ packages }}"
     vars:
@@ -24,14 +24,14 @@
        - kibana
        - logstash
 
-  - name: start Elasticsearch
+  - name: Start Elasticsearch
     systemd:
       name: elasticsearch
       daemon_reload: yes
       state: started
       enabled: yes
 
-  - name: start Kibana
+  - name: Start Kibana
     systemd:
       name: kibana
       daemon_reload: yes
@@ -47,7 +47,7 @@
       mode: 0644
       backup: yes
 
-  - name: start Logstash
+  - name: Start Logstash
     systemd:
       name: logstash
       daemon_reload: yes
