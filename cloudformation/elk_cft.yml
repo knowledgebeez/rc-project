@@ -124,7 +124,7 @@ Resources:
 
       Tags:
         - Key: Name
-          Value: Elk
+          Value: Elk-Candidate-uGOEToMrtb
         - Key: Project
           Value: rc-project
         - Key: Environment
