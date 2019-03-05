@@ -87,7 +87,7 @@ Resources:
           - Arch
       Tags:
         - Key: Name
-          Value: Jenkins
+          Value: Jenkins-Candidate-uGOEToMrtb
         - Key: Project
           Value: rc-project
         - Key: Environment
