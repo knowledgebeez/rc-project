@@ -34,7 +34,7 @@ Mappings:
       Arch: NATHVM64
   AWSRegionArch2AMI:
     us-east-1:
-      HVM64: ami-02eac2c0129f6376b
+      HVM64: ami-02da3a138888ced85
 Resources:
   EC2Role:
     Type: AWS::IAM::Role
@@ -68,11 +68,12 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
+      SubnetId: subnet-09ed40c89e0a51bee
       InstanceType:
         Ref: InstanceType
       IamInstanceProfile:
         Ref: EC2InstanceProfile
-      SecurityGroups:
+      SecurityGroupIds:
       - Ref: InstanceSecurityGroup
       KeyName:
         Ref: KeyName
@@ -84,39 +85,6 @@ Resources:
           - AWSInstanceType2Arch
           - Ref: InstanceType
           - Arch
-      UserData:
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash
-
-            ## Instance bootstrap ##
-
-            # SELinux off
-            setenforce 0
-
-            # Configure swap for small instances
-
-            instanceType=`curl http://169.254.169.254/latest/meta-data/instance-type/`
-
-            case $instanceType in
-                t2.nano|t2.micro|t2.small|t2.medium)
-                    sudo dd if=/dev/zero of=/swapfile bs=1024 count=4097152
-                    chmod 600 /swapfile
-                    mkswap /swapfile
-                    swapon /swapfile
-                    ;;
-            esac
-
-            # Update instance
-
-            yum update -y
-
-            # Set up aws cli
-
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-            pip install awscli
-
       Tags:
         - Key: Name
           Value: Jenkins
@@ -128,6 +96,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable SSH and HTTP access
+      VpcId: vpc-0a0d4969c611e43f9
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '22'
@@ -135,8 +104,8 @@ Resources:
         CidrIp:
           Ref: SSHLocation
       - IpProtocol: tcp
-        FromPort: '80'
-        ToPort: '80'
+        FromPort: '8080'
+        ToPort: '8080'
         CidrIp:
           Ref: SSHLocation
 Outputs:
@@ -156,9 +125,9 @@ Outputs:
       Fn::GetAtt:
       - EC2Instance
       - PublicDnsName
-  PublicIP:
+  PrivateIP:
     Description: Public IP address of the newly created EC2 instance
     Value:
       Fn::GetAtt:
       - EC2Instance
-      - PublicIp
+      - PrivateIp
