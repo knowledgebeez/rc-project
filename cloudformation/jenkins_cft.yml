@@ -34,7 +34,7 @@ Mappings:
       Arch: NATHVM64
   AWSRegionArch2AMI:
     us-east-1:
-      HVM64: ami-02da3a138888ced85
+      HVM64: ami-0600e19c682ad83a8
 Resources:
   EC2Role:
     Type: AWS::IAM::Role
