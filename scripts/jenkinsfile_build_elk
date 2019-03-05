@@ -15,22 +15,22 @@ pipeline {
         stage('Build ELK Cloudformation Stack') {
             steps {
                 echo 'Build ELK Cloudformation Stack'
-                sh "sudo /usr/local/bin/aws cloudformation create-stack --stack-name ${ELK_STACK_NAME} \
-                    --template-url file:///var/lib/jenkins/workspace/ELK\ Stack\ Deployment/cloudformation/elk_cft.yml \
+                sh "aws cloudformation create-stack --stack-name ${ELK_STACK_NAME} \
+                    --template-body file://./repo/cloudformation/elk_cft.yml \
                     --region us-east-1 \
-                    --capabilities CAPABILITY_IAM
+                    --capabilities CAPABILITY_IAM"
             }
         }
         stage ('Build Progress Check for Cloudformation Stack') {
             steps {
                 echo 'Build Progress Check for Cloudformation Stack'
-                sh "sudo /usr/local/bin/aws cloudformation wait stack-create-complete --stack-name ${ELK_STACK_NAME} --region us-east-1"
+                sh "aws cloudformation wait stack-create-complete --stack-name ${ELK_STACK_NAME} --region us-east-1"
             }
         }
         stage('Post-build Check for Cloudformation Stack') {
             steps {
                 echo 'Post-build Check for Cloudformation Stack'
-                sh "sudo /usr/local/bin/aws cloudformation describe-stacks --stack-name ${ELK_STACK_NAME} --region us-east-1"
+                sh "aws cloudformation describe-stacks --stack-name ${ELK_STACK_NAME} --region us-east-1"
             }
         }
     }
