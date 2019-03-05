@@ -101,7 +101,7 @@ Resources:
 
             case $instanceType in
                 t2.nano|t2.micro|t2.small|t2.medium)
-                    sudo dd if=/dev/zero of=/swapfile bs=1024 count=4097152
+                    sudo dd if=/dev/zero of=/swapfile bs=1024 count=3097152
                     chmod 600 /swapfile
                     mkswap /swapfile
                     swapon /swapfile
