@@ -111,19 +111,12 @@ Resources:
             # Update instance
 
             yum update -y
-            yum install epel-release -y
+            amazon-linux-extras install epel -y
             yum install ansible -y
             yum install git -y
 
-            # Set up aws cli
-
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
-            pip install awscli
-
-
             ## Install Application: ELK ##
-
+            
             # Calling Ansible playbook to perform CM steps.
 
             git clone https://github.com/knowledgebeez/rc-project.git /rc-project
