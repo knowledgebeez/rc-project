@@ -50,7 +50,7 @@ pass: admin
 
 4. Kick off the "ELK Stack Deployment" Jenkins job:
 ```
-Note: Deployment of the ELK stack completes in 15 mins. 
+Note: Deployment of the ELK stack completes in 20 mins after deployment is kicked off. 
 ```
 
 5. Get the ELK Stack Public Ip address:
