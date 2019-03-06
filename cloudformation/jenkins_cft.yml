@@ -130,4 +130,4 @@ Outputs:
     Value:
       Fn::GetAtt:
       - EC2Instance
-      - PublicIP
+      - PublicIp
