@@ -49,13 +49,12 @@ pass: admin
 ```
 
 4. Kick off the "ELK Stack Deployment" Jenkins job:
----
-
+```
 Note: Deployment of the ELK stack completes in 15 mins. 
 ```
 
 5. Get the ELK Stack Public Ip address:
 ```
 Fetch the the public ip for the ELK stack from the Jenkins job log and access "Kibana" through a web browser. 
----
+```
 
